@@ -1,6 +1,6 @@
 using Pkg
-Pkg.add("Zytgote")
-using Zytgote
+Pkg.add("Zygote")
+using Zygote
 
 # Take a single variable expressiona and evaluate its value and derivative at a point
 macro diff_macro(expr)
@@ -11,7 +11,7 @@ macro diff_macro(expr)
         end
         @eval function deriv_func(x)
             f(x) = $expr
-            deriv = Zytgote.derivative(f, x)
+            deriv = Zygote.gradient(f, x)[1]
             return deriv
         end
     end
