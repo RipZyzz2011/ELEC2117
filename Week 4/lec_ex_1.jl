@@ -25,20 +25,17 @@ end
 #SIR model that now incorporates re-infection and severe illness state
 function town_SIRS!(dpop, pop, param, t)
     N = sum(pop)
-    c, Beta_c, gamma, alpha, p_s = param
+    c, Beta_c, gamma, alpha, p_s, gamma_s = param
     #gamma: Probability of recovering from infection each day
-    S, I, IS, R = pop
+    S, I, Is, R = pop
     lambda = c * Beta_c * I / N
     R_0 = c * 1/gamma * Beta_c # Reproduction number
     
     dpop[1] = -lambda * S + alpha * R# dS = -lambda*S
     dpop[2] = lambda * S - gamma * I # dI = lambda * S - gamma * R
     #Severe infection
-    dpop[3] = gamma * ps * I - sgamma
-    dpop[4] = gamma * I - alpha * R # dR = gamma * R
-    
-
-    p_c = 1 - 1/R_0 # Herd immunity threshold
+    dpop[3] = gamma * p_s * I - gamma_s * Is 
+    dpop[4] = (1 - p_s) * gamma * I + gamma_s * Is - alpha * R # dR = gamma * R
 
 end
 
@@ -53,25 +50,30 @@ function error(model, data)
 end
 
 # Run the model with some initial conditions
-pop0 = [4999, 1, 0]
+pop0 = [4999, 1, 0, 0]
 tspan = (0.0, 22.0)
+#Parameter definitions
 c = 10
 Beta_c = 0.03519
 gamma = 0.1
-alpha = 0.1
-param = [c, Beta_c, gamma, alpha] #c, Beta_c, gamma
-prob = ODEProblem(town_SIR!, pop0, tspan, param)
+alpha = 0.5
+p_s = 0.9
+gamma_s = 0.1
+param = [c, Beta_c, gamma, alpha, p_s, gamma_s ] #c, Beta_c, gamma
+prob = ODEProblem(town_SIRS!, pop0, tspan, param)
 
 sol = solve(prob, saveat = 1)
 # Actual infection data given to us by Dept' of Health
 data = [1.0, 0.0, 5.0, 12.0, 0.0, 12.0, 0.0, 12.0, 11.0, 13.0, 0.0, 17.0, 41.0, 27.0, 20.0, 41.0, 47.0, 61.0, 76.0, 113.0, 158.0]
 
 #Print the error for a given beta values
+I = [u[2] for u in sol.u]
+I_s = [u[3] for u in sol.u]
 error_beta = error(I, data)
 println("Error for Beta = $Beta_c: $error_beta")
 
-
 println(length(I))
 plot(sol.t, I, label = "model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIR Model")
+plot!(sol.t, I_s, label = "severe illness model")
 plot!(data, seriestype=:scatter, label = "data")   
 

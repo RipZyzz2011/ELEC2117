@@ -1,6 +1,6 @@
-#include("C:/Users/hamis/.julia/dev/homogenous_SIR_model/")
+
 using Pkg
-Pkg.add("homogenous_SIR_model")
+Pkg.add(path="C:/Users/hamis/.julia/dev/homogenous_SIR_model/")
 using homogenous_SIR_model
 
 # Run the model with some initial conditions
@@ -12,6 +12,6 @@ gamma = 0.05
 p_c = 0
 param = [c, Beta_c, gamma, p_c] #c, Beta_c, gamma
 
-model = define_town_model(param, pop0, tspan)
+model = define_town_model(:foi, param, pop0, tspan)
 solved = solve_system(model)
 plot_model_solution(solved)
