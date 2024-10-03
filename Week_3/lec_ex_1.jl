@@ -23,15 +23,17 @@ function town_SIR!(dpop, pop, param, t)
 end
 
 # Run the model with some initial conditions
-pop0 = [99, 1, 0]
-tspan = (0.0, 50.0)
+pop0 = [4999, 1, 0]
+tspan = (0.0, 22)
 c = 10
-Beta_c = 0.10
-gamma = 0.05
+Beta_c = 0.03
+gamma = 0.1
 p_c = 0
 param = [c, Beta_c, gamma, p_c] #c, Beta_c, gamma
 prob = ODEProblem(town_SIR!, pop0, tspan, param)
 
 sol = solve(prob)
+data = [1.0, 0.0, 5.0, 12.0, 0.0, 12.0, 0.0, 12.0, 11.0, 13.0, 0.0, 17.0, 41.0, 27.0, 20.0, 41.0, 47.0, 61.0, 76.0, 113.0, 158.0]
 
-plot(sol, xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIR Model")    
+plot(sol, xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIR Model")
+   
