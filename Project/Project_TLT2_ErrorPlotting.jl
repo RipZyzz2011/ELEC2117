@@ -43,11 +43,12 @@ gamma_s = 1/14
 p_s = 0.20 # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 
-#Data is operated on a daily basis for 25 days
-I_data_d14_d25 = [11,7,20,3,29,14,11,12,16,10,58]
-Is_data_d21_d25 = [0, 0, 1, 2, 5]
+#Data is operated on a daily basis for 30 days
+#We are not provided the first 15 days however
+I_data_d15_d30 = [11,7,20,3,29,14,11,12,16,10,58,34,26,29,51,55]
+Is_data_d21_d30 = [0, 0, 1, 2, 5,5,5,2,9,4]
 
-t_span = (0, 25)
+t_span = (0, 30)
 pop0 = [S, I, I_s, R]
 #Beta appears to be between 0.03 and 0.04, find the value between them that minimises
 #error
@@ -60,7 +61,7 @@ for beta in Betas
     local sol = solve(model, saveat = 1)
     # The data of interest is the number of infected, obtain from solution as so
     local I_model = [u[2] for u in sol.u]
-    append!(b_errors,error_squares(I_model[14:26], I_data_d14_d25))
+    append!(b_errors,error_squares(I_model[15:30], I_data_d15_d30))
 end
 # Obtain the index with the minimum error
 error_index_min = argmin(b_errors)
