@@ -82,3 +82,22 @@ plot!(main, sol_int1.t, I_model_no_int1, label = "I Model: No Intervention", xla
 plot!(main, sol_int1.t, I_model_int1,  label = "I Model: With Intervention at day 30")
 
 display(main)
+
+#Create another plot for severe illness
+Is_model_no_int1 = [u[3] for u in sol_no_int1.u]
+Is_model_no_int2 = [u[3] for u in sol_no_int2.u]
+append!(Is_model_no_int1, Is_model_no_int2) 
+
+Is_model_int1 = [u[3] for u in sol_int1.u]
+Is_model_int2 = [u[3] for u in sol_int2.u]
+append!(Is_model_int1, Is_model_int2)
+
+severe = plot()
+plot!(severe, sol_int1.t, Is_model_no_int1, label = "Is Model: No Intervention", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "Comparing Severe Illness numbers with Intervention at Day 30 vs No Intervention")
+plot!(severe, sol_int1.t, Is_model_int1,  label = "Is Model: With Intervention at day 30")
+display(severe)
+
+#Show both on the one plot
+plot!(main, sol_int1.t, Is_model_no_int1, label = "Is Model: No Intervention")
+plot!(main, sol_int1.t, Is_model_int1,  label = "Is Model: With Intervention at day 30")
+display(main)
