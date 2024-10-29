@@ -1,3 +1,5 @@
+using Plots
+using DifferentialEquations
 # Recalibrating our model to include the intervention method and its
 # associated rate
 
@@ -51,7 +53,7 @@ param_no_int = [c, Beta, gamma, alpha, p_s, gamma_s]
 param_int = [c, Beta, gamma, alpha, p_s, gamma_s, epsilon, phi]
 # Implement the intervention at 30 days, simulate for another 30
 t_span_half_1 = (0, 30)
-t_span_half_2 = (30, 120)
+t_span_half_2 = (30, 365)
 pop0_no_int = [S, I, I_s, R]
 pop0_int = [S, I, I_s, R]
 

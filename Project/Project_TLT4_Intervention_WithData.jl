@@ -1,3 +1,5 @@
+using Plots
+using DifferentialEquations
 # Constructing parameters from the data
 c = 8 #Number of daily contacts on average
 gamma = 1/7 # Daily rate of recovery if it takes 7 days to recover typically
