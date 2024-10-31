@@ -1,5 +1,7 @@
 using Plots
 using DifferentialEquations
+using Pkg
+Pkg.add(["Measurements", "StatsPlots"])
 #using homogenous_SIR_model
 
 #SIR model that now incorporates re-infection and severe illness state
