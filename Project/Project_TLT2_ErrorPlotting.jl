@@ -1,5 +1,6 @@
 using Plots
 using DifferentialEquations
+using Measurements
 #using homogenous_SIR_model
 
 #Calculate the sum of the error at each datapoint between the real values and the model values

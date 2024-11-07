@@ -1,5 +1,6 @@
 using Plots
 using DifferentialEquations
+using Measurements
 # Recalibrating our model to include the intervention method and its
 # associated rate
 
@@ -42,10 +43,10 @@ R = 0
 c = 8 #Number of daily contacts on average
 gamma = 1/7 # Daily rate of recovery if it takes 7 days to recover typically
 gamma_s = 1/14
-p_s = 0.20 # Average probability of severe infection
+p_s = measurement(0.20, 0.05) # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 epsilon = 0.30 # Efficacy of intervention
-phi = 0.80 # Proportion of population that will adhere to the intervention
+phi = 0.55 # Proportion of population that will adhere to the intervention
 
 #Using the value of beta that best matches the current data as of 21/10/2024
 Beta = measurement(0.035, 0.002)
