@@ -84,7 +84,7 @@ b_errors_severe = []
 for beta in Betas
     local param_int = [c, beta, gamma, alpha, p_s, gamma_s]
      # Create the ODE model of the town
-     local model =  ODEProblem(town_SIRS, pop0, t_span, param_int)
+     local model =  ODEProblem(town_SIRS!, pop0, t_span, param_int)
      local sol = solve(model, saveat = 1)
      # The data of interest is the number of infected, obtain from solution as so
      local I_model = [u[2].val for u in sol.u]
@@ -96,5 +96,9 @@ end
 # Obtain the indices with the minimum error
 beta_infected_min = argmin(b_errors_infected)
 beta_severe_min = argmin(b_errors_severe)
-println("Beta value that gives the smallest infected error: $(Betas[error_infected_index_min])")
-println("Beta value that gives the smallest severe illness error: $(Betas[error_severe_index_min])")
+println("Beta value that gives the smallest infected error: $(Betas[beta_infected_min])")
+println("Beta value that gives the smallest severe illness error: $(Betas[beta_severe_min])")
+beta_plotting = plot()
+plot!(beta_plotting, Betas, b_errors_infected, seriestype=:scatter, xlabel = "Beta Values", ylabel = "Least Squares Error", label = "Infected People Errors")
+plot!(beta_plotting, Betas, b_errors_severe, seriestype=:scatter, label = "Severe Illness Errors")
+display(beta_plotting)

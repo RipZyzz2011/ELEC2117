@@ -1,10 +1,10 @@
 using Plots
 using DifferentialEquations
 using Measurements
-#using homogenous_SIR_model
-
-#Calculate the sum of the error at each datapoint between the real values and the model values
-#Squares error between values, useful for evaluating the efficacy of the beta parameter
+using Pkg
+Pkg.add(path="C:/Users/hamis/.julia/dev/homogenous_SIR_model/")
+using homogenous_SIR_model
+#Not importing correctly for some reason
 function error_squares(model, data)
     err_sum = 0
     for i in 1:(length(data))
@@ -12,22 +12,6 @@ function error_squares(model, data)
     end
 
     return err_sum
-end
-#SIR model that now incorporates re-infection and severe illness state
-function town_SIRS!(dpop, pop, param, t)
-    N = sum(pop)
-    c, Beta_c, gamma, alpha, p_s, gamma_s = param
-    #gamma: Probability of recovering from infection each day
-    S, I, Is, R = pop
-    lambda = c * Beta_c * I / N
-    R_0 = c * 1/gamma * Beta_c # Reproduction number
-    
-    dpop[1] = -lambda * S + alpha * R# dS = -lambda*S
-    dpop[2] = lambda * S - gamma * I # dI = lambda * S - gamma * R
-    #Severe infection
-    dpop[3] = gamma * p_s * I - gamma_s * Is 
-    dpop[4] = (1 - p_s) * gamma * I + gamma_s * Is - alpha * R # dR = gamma * R
-
 end
 
 #Town Population
@@ -67,4 +51,4 @@ end
 # Obtain the index with the minimum error
 error_index_min = argmin(b_errors)
 println("Beta value that gives the smallest error: $(Betas[error_index_min])")
-plot(Betas, b_errors, seriestype=:scatter, xlabel = "Beta Values", ylabel = "Least Squares Error")
+plot(Betas, b_errors, seriestype=:scatter, xlabel = "Beta Values", ylabel = "Least Squares Error", title = "LLSE Error values between Data and Model")

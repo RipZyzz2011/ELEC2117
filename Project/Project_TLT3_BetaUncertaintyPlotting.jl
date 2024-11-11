@@ -37,5 +37,5 @@ I_model_mean = [(u[2].val) for u in sol.u]
 I_model_err = [(u[2].err) for u in sol.u]
 
 println("Beta is approximately $beta from the data, and R_0 is approximately $R_0")
-plot(sol.t, I_model_mean, ribbon = I_model_err, label = "I_Model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIRS Infected Model vs Data")
-plot!(I_data_d14_d25, seriestype=:scatter, label = "I_Data")   
+plot(sol.t, I_model_mean, ribbon = I_model_err, label = "I_Model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIRS Infected Model vs Infected Population Data")
+plot!(I_data_d15_d30, seriestype=:scatter, label = "I_Data")   

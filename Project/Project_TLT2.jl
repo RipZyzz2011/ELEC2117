@@ -2,24 +2,7 @@ using Plots
 using DifferentialEquations
 using Pkg
 Pkg.add(["Measurements", "StatsPlots"])
-#using homogenous_SIR_model
-
-#SIR model that now incorporates re-infection and severe illness state
-function town_SIRS!(dpop, pop, param, t)
-    N = sum(pop)
-    c, Beta_c, gamma, alpha, p_s, gamma_s = param
-    #gamma: Probability of recovering from infection each day
-    S, I, Is, R = pop
-    lambda = c * Beta_c * I / N
-    R_0 = c * 1/gamma * Beta_c # Reproduction number
-    
-    dpop[1] = -lambda * S + alpha * R# dS = -lambda*S
-    dpop[2] = lambda * S - gamma * I # dI = lambda * S - gamma * R
-    #Severe infection
-    dpop[3] = gamma * p_s * I - gamma_s * Is 
-    dpop[4] = (1 - p_s) * gamma * I + gamma_s * Is - alpha * R # dR = gamma * R
-
-end
+using homogenous_SIR_model
 
 #Town Population
 N = 6000
