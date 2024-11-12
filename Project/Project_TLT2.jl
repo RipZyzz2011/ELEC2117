@@ -1,7 +1,8 @@
+using Pkg
+Pkg.add(["Measurements", "StatsPlots", "Plots", "DifferentialEquations"])
+Pkg.add(path = "C:/Users/hamis/.julia/dev/homogenous_SIR_model/")
 using Plots
 using DifferentialEquations
-using Pkg
-Pkg.add(["Measurements", "StatsPlots"])
 using homogenous_SIR_model
 
 #Town Population
@@ -20,7 +21,7 @@ p_s = 0.20 # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 
 #Data is operated on a daily basis for 25 days
-I_data_d14_d25 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,7,20,3,29,14,11,12,16,10,58]
+I_data_d14_d25 = [11,7,20,3,29,14,11,12,16,10,58]
 Is_data_d21_d25 = [0, 0, 1, 2, 5]
 #Using the least-squares error method, the beta that provides the smallest error
 # with the current data is 0.03697
@@ -41,6 +42,6 @@ print
 
 println("Beta is approximately $Beta from the data, and R_0 is approximately $R_0")
 plot(sol.t, I_model, label = "I_Model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIRS Model vs Data")
-plot!(I_data_d14_d25, seriestype=:scatter, label = "I_Data")   
+plot!(range(14, step = 1, stop = 25),I_data_d14_d25, seriestype=:scatter, label = "I_Data")   
 
 

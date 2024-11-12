@@ -26,7 +26,7 @@ gamma_s = 1/14
 p_s = measurement(0.20, 0.05) # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 epsilon = 0.30 # Efficacy of intervention
-phi = 0.8 # Proportion of population that will adhere to the intervention
+phi = 0.65 # Proportion of population that will adhere to the intervention
 
 #Using the value of beta that best matches the current data as of 21/10/2024
 Beta = measurement(0.035, 0.002)

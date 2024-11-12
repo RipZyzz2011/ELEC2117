@@ -23,8 +23,8 @@ alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 
 #Data is operated on a daily basis for 30 days
 #We are not provided the first 15 days however
-I_data_d15_d30 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,7,20,3,29,14,11,12,16,10,58, 34, 26, 29, 51, 55]
-Is_data_d21_d30 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0, 1, 2, 5,5,5,2,9,4]
+I_data_d15_d30 = [11,7,20,3,29,14,11,12,16,10,58, 34, 26, 29, 51, 55]
+Is_data_d21_d30 = [ 1, 2, 5,5,5,2,9,4]
 
 t_span = (0, 30)
 pop0 = [S, I, I_s, R]
@@ -46,7 +46,7 @@ Is_model_err = [(u[3].err) for u in sol.u]
 
 println("Beta is approximately $beta from the data, and R_0 is approximately $R_0")
 plot(sol.t, I_model_mean, ribbon = I_model_err, label = "I_Model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIRS Infected Model vs Infected Population Data")
-plot!(I_data_d15_d30, seriestype=:scatter, label = "I_Data") 
+plot!(range(15, step = 1, stop = 30), I_data_d15_d30, seriestype=:scatter, label = "I_Data") 
 plot(sol.t, Is_model_mean, ribbon = Is_model_err, label = "Is_Model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIRS Severe Illness Model vs Severe Illness Data")
-plot!(Is_data_d21_d30, seriestype=:scatter, label = "Is_Data")     
+plot!(range(21, step = 1, stop = 30), Is_data_d21_d30, seriestype=:scatter, label = "Is_Data")     
 

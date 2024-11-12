@@ -53,9 +53,9 @@ append!(I_model_int1_err, I_model_int2_err)
 append!(sol_int1.t, sol_int2.t)
 
 #Compare the two models with the data provided up to this point as of 24/10/2024
-I_data_d15_d55 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11,7,20,3,29,14,11,12,16,10,58,34,26,29,51,55,155,53,67,98,130,189,92,192,145,128,68,74,126,265,154,207,299,273,190,152,276,408,267,462,352]
+I_data_d15_d55 = [ 11,7,20,3,29,14,11,12,16,10,58,34,26,29,51,55,155,53,67,98,130,189,92,192,145,128,68,74,126,265,154,207,299,273,190,152,276,408,267,462,352]
 #Full data set now available as of 31/10/2024
-I_data_d15_d80 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11,7,20,3,29,14,11,12,16,10,58,34,26,29,51,55,155,53,67,98,130,189,92,192,145,128,68,74,126,265,154,207,299,273,190,152,276,408,267,462,352, 385
+I_data_d15_d80 = [ 11,7,20,3,29,14,11,12,16,10,58,34,26,29,51,55,155,53,67,98,130,189,92,192,145,128,68,74,126,265,154,207,299,273,190,152,276,408,267,462,352, 385
 ,221
 ,420
 ,544
@@ -84,11 +84,12 @@ main = plot()
 plot!(main, sol_int1.t, I_model_no_int1, ribbon = I_model_no_int1_err, label = "I Model: No Intervention", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "Intervention at Day 30 vs No Intervention")
 plot!(main, sol_int1.t, I_model_int1, ribbon = I_model_int1_err,  label = "I Model: With Intervention at day 30, probability of use = $phi")
 #plot!(main, range(0, stop = 55, step = 1), I_data_d15_d55, label = "I Data",  seriestype=:scatter)
-plot!(main, range(0, stop = 80, step = 1), I_data_d15_d80, label = "Infected population data as of 31/10",  seriestype=:scatter)
+plot!(main, range(15, stop = 80, step = 1), I_data_d15_d80, label = "Infected population data as of 31/10",  seriestype=:scatter)
 display(main)
 
 #Compare the number of severe illnesses recorded with the model and intervention
-Is_data_d21_d55 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0, 0, 1, 2, 5, 5, 5, 2, 9, 4, 22, 0, 15, 48, 38, 57, 9, 18, 20, 0, 41, 15, 35, 36, 27, 38, 24, 40, 34, 57, 18, 29, 63, 66, 119]
+Is_data_d21_d80 = [0, 0, 1, 2, 5, 5, 5, 2, 9, 4, 22, 0, 15, 48, 38, 57, 9, 18, 20, 0, 41, 15, 35, 36, 27, 38, 24, 40, 34, 57, 18, 29, 63, 66, 119, 76
+    , 95, 28, 109, 136, 119, 104, 121, 93, 147, 129, 130, 161, 133, 136, 138, 139, 181, 181, 218, 183, 167, 164, 219, 220]
 
 Is_model_no_int1 = [u[3].val for u in sol_no_int1.u]
 Is_model_no_int1_err = [u[3].err for u in sol_no_int1.u]
@@ -107,6 +108,6 @@ append!(Is_model_int1_err, Is_model_int2_err)
 severe = plot()
 plot!(severe, sol_int1.t, Is_model_no_int1, ribbon = Is_model_no_int1_err, label = "Is Model: No Intervention", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "Intervention at Day 30 vs No Intervention")
 plot!(severe, sol_int1.t, Is_model_int1, ribbon = Is_model_int1_err,  label = "Is Model: With Intervention at day 30, probability of use = $phi")
-plot!(severe, range(0, stop = 55, step = 1), Is_data_d21_d55, label = "Severe Illness Data",  seriestype=:scatter)
+plot!(severe, range(21, stop = 80, step = 1), Is_data_d21_d80, label = "Severe Illness Data",  seriestype=:scatter)
 display(severe)
 display(main)
