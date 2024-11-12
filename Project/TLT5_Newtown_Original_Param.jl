@@ -20,10 +20,10 @@ gamma = 1/7 # Daily rate of recovery if it takes 7 days to recover typically
 gamma_s = 1/14
 p_s = measurement(0.20, 0.05) # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
-epsilon = 0.15 # Efficacy of intervention
+epsilon = 0.3 # Efficacy of intervention
 phi = 0.55 # Proportion of population that will adhere to the intervention
 
-Beta = measurement(0.032, 0.002)
+Beta = measurement(0.035, 0.002)
 param_no_int = [c, Beta, gamma, alpha, p_s, gamma_s]
 param_int = [c, Beta, gamma, alpha, p_s, gamma_s, epsilon, phi]
 
@@ -91,5 +91,5 @@ severe = plot()
 plot!(severe, sol_int1.t, Is_model_no_int1, ribbon = Is_model_no_int1_err, label = "Is Model: No Intervention", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "Severe Illness Population of Town 2")
 plot!(severe, sol_int1.t, Is_model_int1, ribbon = Is_model_int1_err,  label = "Is Model: With Intervention at day 36, probability of use = $phi")
 plot!(severe, range(0, stop = 80, step = 1),town2_Severe_d27_d80, label = "Severe Illness Data in Town 2 as of 31/10",  seriestype=:scatter)
-#display(severe)
-display(main)
+display(severe)
+#display(main)

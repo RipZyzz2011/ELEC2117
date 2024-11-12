@@ -26,7 +26,7 @@ gamma_s = 1/14
 p_s = measurement(0.20, 0.05) # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 epsilon = 0.30 # Efficacy of intervention
-phi = 0.55 # Proportion of population that will adhere to the intervention
+phi = 0.8 # Proportion of population that will adhere to the intervention
 
 #Using the value of beta that best matches the current data as of 21/10/2024
 Beta = measurement(0.035, 0.002)
@@ -67,7 +67,7 @@ append!(I_model_int1_err, I_model_int2_err)
 #Append the time together as well
 append!(sol_int1.t, sol_int2.t)
 main = plot()
-plot!(main, sol_int1.t, I_model_no_int1, ribbon = I_model_no_int1_err, label = "I Model: No Intervention", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "Intervention at Day 30 vs No Intervention")
+plot!(main, sol_int1.t, I_model_no_int1, ribbon = I_model_no_int1_err, label = "I Model: No Intervention", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "Modelling an Intervention at Day 30 vs No Intervention")
 plot!(main, sol_int1.t, I_model_int1, ribbon = I_model_int1_err, label = "I Model: With Intervention at day 30")
 
 display(main)

@@ -3,6 +3,9 @@
 using Plots
 using DifferentialEquations
 using Measurements
+using Pkg
+Pkg.add(["Measurements", "StatsPlots"])
+using homogenous_SIR_model
 
 #Town Population
 N = 6000
@@ -21,13 +24,14 @@ alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 #Data is operated on a daily basis for 30 days
 #We are not provided the first 15 days however
 I_data_d15_d30 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,7,20,3,29,14,11,12,16,10,58, 34, 26, 29, 51, 55]
-Is_data_d21_d30 = [0, 0, 1, 2, 5,5,5,2,9,4]
+Is_data_d21_d30 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0, 1, 2, 5,5,5,2,9,4]
 
 t_span = (0, 30)
 pop0 = [S, I, I_s, R]
 
 # Set beta to 0.035 with an uncertainty of +/- 0.002
-beta = measurement(0.035, 0.002)
+beta = measurement(0.035, 0.003)
+R_0 = c * beta / gamma
 param = [c, beta, gamma, alpha, p_s, gamma_s]
 # Create the ODE model of the town
 model =  ODEProblem(town_SIRS!, pop0, t_span, param)
@@ -35,7 +39,14 @@ sol = solve(model, saveat = 1)
 # The data of interest is the number of infected, obtain from solution as so
 I_model_mean = [(u[2].val) for u in sol.u]
 I_model_err = [(u[2].err) for u in sol.u]
+Is_model_mean = [(u[3].val) for u in sol.u]
+Is_model_err = [(u[3].err) for u in sol.u]
+
+
 
 println("Beta is approximately $beta from the data, and R_0 is approximately $R_0")
 plot(sol.t, I_model_mean, ribbon = I_model_err, label = "I_Model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIRS Infected Model vs Infected Population Data")
-plot!(I_data_d15_d30, seriestype=:scatter, label = "I_Data")   
+plot!(I_data_d15_d30, seriestype=:scatter, label = "I_Data") 
+plot(sol.t, Is_model_mean, ribbon = Is_model_err, label = "Is_Model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIRS Severe Illness Model vs Severe Illness Data")
+plot!(Is_data_d21_d30, seriestype=:scatter, label = "Is_Data")     
+
