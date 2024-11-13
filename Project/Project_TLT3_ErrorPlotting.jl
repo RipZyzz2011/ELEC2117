@@ -4,6 +4,10 @@ using Measurements
 using Pkg
 Pkg.add(path="C:/Users/hamis/.julia/dev/homogenous_SIR_model/")
 using homogenous_SIR_model
+
+#This program utilises the Linear Least Squares Estimator (LLSE) in order to find a 
+# value for Beta that best correlates with the data
+
 #Not importing correctly for some reason
 function error_squares(model, data)
     err_sum = 0
@@ -29,23 +33,24 @@ p_s = 0.20 # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 
 #Data is operated on a daily basis for 30 days
-#We are not provided the first 15 days however
+#First 15 days of infection data is unknown
 I_data_d15_d30 = [11,7,20,3,29,14,11,12,16,10,58,34,26,29,51,55]
 Is_data_d21_d30 = [0, 0, 1, 2, 5,5,5,2,9,4]
 
 t_span = (0, 30)
 pop0 = [S, I, I_s, R]
-#Beta appears to be between 0.03 and 0.04, find the value between them that minimises
+#Beta appears to be between 0.02 and 0.04, find the value between them that minimises
 #error
-Betas = range(0.02, step = 0.00001, stop = 0.04)
+Betas = range(0.02, step = 0.00001, stop = 0.1)
+#List to store the error sums for each value of beta
 b_errors = []
 for beta in Betas
     local param = [c, beta, gamma, alpha, p_s, gamma_s]
     # Create the ODE model of the town
     local model =  ODEProblem(town_SIRS!, pop0, t_span, param)
     local sol = solve(model, saveat = 1)
-    # The data of interest is the number of infected, obtain from solution as so
     local I_model = [u[2] for u in sol.u]
+    # Compute the LLS error of each model set with the data
     append!(b_errors,error_squares(I_model[15:30], I_data_d15_d30))
 end
 # Obtain the index with the minimum error

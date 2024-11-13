@@ -1,11 +1,13 @@
-#Same idea as the other TLT 3 file, however instead of plotting a range
-# beta is now going to have an uncertainty attached
+
 using Plots
 using DifferentialEquations
 using Measurements
 using Pkg
 Pkg.add(["Measurements", "StatsPlots"])
 using homogenous_SIR_model
+
+# Model the disease alonside the data, now making use of the estimated beta value
+# and incorporating the uncertainty into said value
 
 #Town Population
 N = 6000
@@ -27,6 +29,7 @@ I_data_d15_d30 = [11,7,20,3,29,14,11,12,16,10,58, 34, 26, 29, 51, 55]
 Is_data_d21_d30 = [ 1, 2, 5,5,5,2,9,4]
 
 t_span = (0, 30)
+# Initial population distribution vector
 pop0 = [S, I, I_s, R]
 
 # Set beta to 0.035 with an uncertainty of +/- 0.002
@@ -43,7 +46,7 @@ Is_model_mean = [(u[3].val) for u in sol.u]
 Is_model_err = [(u[3].err) for u in sol.u]
 
 
-
+# Plot the infection model and the severe illness model alongside the data
 println("Beta is approximately $beta from the data, and R_0 is approximately $R_0")
 plot(sol.t, I_model_mean, ribbon = I_model_err, label = "I_Model", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "SIRS Infected Model vs Infected Population Data")
 plot!(range(15, step = 1, stop = 30), I_data_d15_d30, seriestype=:scatter, label = "I_Data") 

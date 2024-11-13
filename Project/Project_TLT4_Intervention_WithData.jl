@@ -3,6 +3,9 @@ using DifferentialEquations
 using Measurements
 using StatsPlots
 using homogenous_SIR_model
+
+# Compare the effect of the intervention in the modelling with the actual data obtained
+
 # Constructing parameters from the data
 c = 8 #Number of daily contacts on average
 gamma = 1/7 # Daily rate of recovery if it takes 7 days to recover typically
@@ -16,7 +19,7 @@ phi = 0.650 # Proportion of population that will adhere to the intervention
 Beta = measurement(0.035, 0.002)
 param_no_int = [c, Beta, gamma, alpha, p_s, gamma_s]
 param_int = [c, Beta, gamma, alpha, p_s, gamma_s, epsilon, phi]
-# Implement the intervention at 30 days, simulate for another 30
+# Implement the intervention at 30 days
 t_span_half_1 = (0, 30)
 t_span_half_2 = (30, 120)
 pop0_no_int = [S, I, I_s, R]
@@ -55,31 +58,7 @@ append!(sol_int1.t, sol_int2.t)
 #Compare the two models with the data provided up to this point as of 24/10/2024
 I_data_d15_d55 = [ 11,7,20,3,29,14,11,12,16,10,58,34,26,29,51,55,155,53,67,98,130,189,92,192,145,128,68,74,126,265,154,207,299,273,190,152,276,408,267,462,352]
 #Full data set now available as of 31/10/2024
-I_data_d15_d80 = [ 11,7,20,3,29,14,11,12,16,10,58,34,26,29,51,55,155,53,67,98,130,189,92,192,145,128,68,74,126,265,154,207,299,273,190,152,276,408,267,462,352, 385
-,221
-,420
-,544
-,329
-,440
-,427
-,369
-,606
-,416
-,546
-,475
-,617
-,593
-,352
-,337
-,473
-,673
-,653
-,523
-,602
-,551
-,686
-,556
-,600]
+I_data_d15_d80 = [11, 7, 20, 3, 29, 14, 11, 12, 16, 10, 58, 34, 26, 29, 51, 55, 155, 53, 67, 98, 130, 189, 92, 192, 145, 128, 68, 74, 126, 265, 154, 207, 299, 273, 190, 152, 276, 408, 267, 462, 352, 385, 221, 420, 544, 329, 440, 427, 369, 606, 416, 546, 475, 617, 593, 352, 337, 473, 673, 653, 523, 602, 551, 686, 556, 600]
 main = plot()
 plot!(main, sol_int1.t, I_model_no_int1, ribbon = I_model_no_int1_err, label = "I Model: No Intervention", xlabel = "Time(Days)", ylabel = "Number of people in Category", title = "Intervention at Day 30 vs No Intervention")
 plot!(main, sol_int1.t, I_model_int1, ribbon = I_model_int1_err,  label = "I Model: With Intervention at day 30, probability of use = $phi")

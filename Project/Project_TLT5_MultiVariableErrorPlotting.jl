@@ -1,8 +1,10 @@
-# Purpose of this file is to perform LLSE whilst varying several parameters at once to find
-# the optimal approximation of the virus in town 2
 using homogenous_SIR_model
 using Measurements
 using DifferentialEquations
+
+# Purpose of this file is to perform LLSE whilst varying several parameters at once to find
+# the optimal approximation of the disease in town 2
+
 #Town Population
 N = 10000
 I = 1
@@ -35,19 +37,24 @@ p_s = measurement(0.2, 0.05)
 t_span = (0, 80)
 pop0 = [S, I, I_s, R]
 
+# Reasonable set of values and steps to vary the 3 most sensitive variables 
+# in the system
 Epsilons = range(start = 0.0, step = 0.01, stop = 0.5)
 Betas = range(0.02, step = 0.0001, stop = 0.04)
 Phis = range(0.2, step = 0.01, stop = 1)
 
 
-# Store the minimum error as well as the indices it occurs at
-# for both infected and severe illnesses
+# Store the minimum error as well as the parameter indices that result in the
+# minimum error for both infected and severe illnesses
+
 global current_min_error_infected = 10^20
 global current_min_indices_infected = (0, 0, 0)
 global current_min_error_severe = 10^20
 global current_min_indices_severe = (0, 0, 0)
 
 
+# Process every possible combination of the three parameters to find the 
+# set that minimises the error with the data
 for i in range(1, stop = length(Betas))
     for j in range(1, stop = length(Epsilons))
         for k in range(1, stop = length(Phis))
@@ -55,13 +62,12 @@ for i in range(1, stop = length(Betas))
             # Create the ODE model of the town
             local model = ODEProblem(town_SIRS_Intervention!, pop0, t_span, param_int)
             local sol = solve(model, saveat=1)
-            # The data of interest is the number of infected, obtain from solution as so
             local I_model = [u[2] for u in sol.u]
             local Is_model = [u[3] for u in sol.u]
             local inf_error = error_squares(I_model[27:81], town2_Infected_d27_d80)
             local sev_error = error_squares(Is_model[27:81], town2_Severe_d27_d80)
 
-            # Compare these errors to the current minimum LLSE
+            # Compare the calculated error to the current minimum LLSE
             if inf_error < current_min_error_infected
                 global current_min_error_infected = inf_error
                 global current_min_indices_infected = (i, j, k)

@@ -7,8 +7,10 @@ using homogenous_SIR_model
 town2_Infected_d27_d80 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,29, 25, 30, 28, 34, 28, 54, 57, 92, 73, 80, 109, 102, 128, 135, 163, 150, 211, 196, 233, 247, 283, 286, 332, 371, 390, 404, 467, 529, 598, 641, 704, 702, 788, 856, 854, 955, 995, 1065, 1106, 1159, 1217, 1269, 1298, 1328, 1339, 1383, 1431, 1422, 1414, 1485, 1464, 1480]
 town2_Severe_d27_d80 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3, 3, 4, 7, 3, 8, 7, 5, 9, 13, 15, 3, 20, 13, 11, 20, 16, 11, 15, 18, 27, 24, 28, 36, 41, 35, 41, 55, 63, 66, 72, 80, 90, 104, 109, 115, 127, 135, 147, 162, 163, 186, 194, 200, 216, 223, 241, 249, 258, 275, 277, 299, 302, 300]
 
-#Initially begin modelling the virus with the parameters of the first town's virus
+#Initially begin modelling the virus with the parameters of the first town's disease
+# Duplicate code as in TLT4_Intervention_WithData.jl, but the data set is from the second town
 #Town Population
+# Assume there was 1 infected person at outbreak
 N = 10000
 I = 1
 S = N - I
@@ -21,13 +23,15 @@ gamma_s = 1/14
 p_s = measurement(0.20, 0.05) # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 epsilon = 0.3 # Efficacy of intervention
-phi = 0.55 # Proportion of population that will adhere to the intervention
+phi = 0.65 # Proportion of population that will adhere to the intervention
 
 Beta = measurement(0.035, 0.002)
 param_no_int = [c, Beta, gamma, alpha, p_s, gamma_s]
 param_int = [c, Beta, gamma, alpha, p_s, gamma_s, epsilon, phi]
 
-# Implement the intervention at day 36, simulate for another 50
+# Model the disease from day 1 relative to the first town, despite only being detected on
+# day 27
+# Implement the intervention at day 36
 t_span_half_1 = (0, 36)
 t_span_half_2 = (36, 100)
 pop0_no_int = [S, I, I_s, R]

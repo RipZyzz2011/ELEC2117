@@ -4,13 +4,10 @@ using Measurements
 using Pkg
 Pkg.add(path="C:/Users/hamis/.julia/dev/homogenous_SIR_model/")
 using homogenous_SIR_model
-# Recalibrating our model to include the intervention method and its
-# associated rate
 
-#SIR model that now incorporates re-infection and severe illness state, as well
-# as an intervention rate and probability
-
+# Apply the SIRS differential equation model with the new intervention incorporated
 # Compare the impact of intervention after day 30 with no intervention
+
 #Town Population
 N = 6000
 I = 1
@@ -39,6 +36,7 @@ pop0_no_int = [S, I, I_s, R]
 pop0_int = [S, I, I_s, R]
 
 # Simulate two sets of models, with one set implementing the intervention after day 30
+# The model needs to be broken into two time sets in order to run properly
 
 model_no_int1 = ODEProblem(town_SIRS!, pop0_no_int, t_span_half_1, param_no_int)
 sol_no_int1 = solve(model_no_int1, saveat = 1)
@@ -49,6 +47,7 @@ model_int1 = ODEProblem(town_SIRS!, pop0_int, t_span_half_1, param_no_int)
 sol_int1 = solve(model_int1, saveat = 1)
 model_int2 = ODEProblem(town_SIRS_Intervention!, sol_int1.u[31], t_span_half_2, param_int)
 sol_int2 = solve(model_int2, saveat = 1)
+
 # The data of interest is the number of infected, obtain from solution as so
 I_model_no_int1 = [u[2].val for u in sol_no_int1.u]
 I_model_no_int1_err = [u[2].err for u in sol_no_int1.u]
