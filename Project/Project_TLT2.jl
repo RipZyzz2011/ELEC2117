@@ -1,9 +1,10 @@
 using Pkg
-Pkg.add(["Measurements", "StatsPlots", "Plots", "DifferentialEquations"])
+Pkg.add(["Measurements", "StatsPlots", "Plots", "DifferentialEquations", "Revise"])
 #Change this path to the relevant local Github repositry
 Pkg.add(path = "C:/Users/hamis/.julia/dev/homogenous_SIR_model/")
 using Plots
 using DifferentialEquations
+using Revise
 using homogenous_SIR_model
 
 # This script is the starting point in accurately modelling the outbreak in the town
