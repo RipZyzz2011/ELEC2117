@@ -13,7 +13,7 @@ gamma_s = 1/14
 p_s = 0.20 # Average probability of severe infection
 alpha = 1/30 # Daily rate of resusceptance if the average time for it is a month
 epsilon = 0.30 # Efficacy of intervention
-phi = 0.650 # Proportion of population that will adhere to the intervention
+phi = 0.65 # Proportion of population that will adhere to the intervention
 
 #Using the value of beta that best matches the current data as of 21/10/2024
 Beta = measurement(0.035, 0.002)
@@ -89,4 +89,4 @@ plot!(severe, sol_int1.t, Is_model_no_int1, ribbon = Is_model_no_int1_err, label
 plot!(severe, sol_int1.t, Is_model_int1, ribbon = Is_model_int1_err,  label = "Is Model: With Intervention at day 30, probability of use = $phi")
 plot!(severe, range(21, stop = 80, step = 1), Is_data_d21_d80, label = "Severe Illness Data",  seriestype=:scatter)
 display(severe)
-display(main)
+#display(main)

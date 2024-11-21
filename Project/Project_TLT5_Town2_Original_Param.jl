@@ -96,4 +96,4 @@ plot!(severe, sol_int1.t, Is_model_no_int1, ribbon = Is_model_no_int1_err, label
 plot!(severe, sol_int1.t, Is_model_int1, ribbon = Is_model_int1_err,  label = "Is Model: With Intervention at day 36, probability of use = $phi")
 plot!(severe, range(0, stop = 80, step = 1),town2_Severe_d27_d80, label = "Severe Illness Data in Town 2 as of 31/10",  seriestype=:scatter)
 display(severe)
-#display(main)
+display(main)
